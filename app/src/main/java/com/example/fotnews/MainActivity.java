@@ -23,9 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Load default fragment and set selected item
         if (savedInstanceState == null) {
-            loadFragment(new AccademicFragment()); // Fixed spelling
+            loadFragment(new AccademicFragment());
             bottomNav.setSelectedItemId(R.id.academic);
         }
+
+
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -48,20 +50,20 @@ public class MainActivity extends AppCompatActivity {
             };
 
     private void loadFragment(Fragment fragment) {
-        // Avoid loading the same fragment multiple times
         if (currentFragment != null && currentFragment.getClass().equals(fragment.getClass())) {
             return;
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // Disable transition animations
+        transaction.setTransition(FragmentTransaction.TRANSIT_NONE);
+
         transaction.replace(R.id.content_scroll, fragment);
-
-        // Don't add to back stack for bottom navigation
-        // transaction.addToBackStack(null);
-
         transaction.commit();
         currentFragment = fragment;
     }
+
 
     @Override
     public void onBackPressed() {
