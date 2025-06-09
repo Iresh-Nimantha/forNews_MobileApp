@@ -35,13 +35,16 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+//buildFeatures {
+//    viewBinding = true
+//}
 
 dependencies {
     implementation(libs.appcompat)
-    implementation(libs.material)
+    implementation(libs.material)  // This already includes Material Design components
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(libs.firebase.auth)
+    implementation(libs.firebase.auth)  // Firebase Authentication [Memory:programming.android]
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

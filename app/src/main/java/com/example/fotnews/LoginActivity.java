@@ -25,8 +25,15 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login); // Use your XML file name
+        mAuth = FirebaseAuth.getInstance();
 
-        usernameEditText = findViewById(R.id.username);
+        // Check existing login status
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+        usernameEditText = findViewById(R.id.log_email);
         passwordEditText = findViewById(R.id.password);
         loginButton = findViewById(R.id.login_button);
         signInLink = findViewById(R.id.sign_in);

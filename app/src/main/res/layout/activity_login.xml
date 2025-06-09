@@ -31,10 +31,10 @@
 
     <!-- Username Field -->
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/log_email"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="User Name"
+        android:hint="Email"
 
         android:padding="12dp"
         android:color="#DDDDDD"
@@ -88,5 +88,12 @@
             android:textColor="#4953B8"
             android:textStyle="bold" />
     </LinearLayout>
+    <!-- Add this ProgressBar to your layout XML -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
 </LinearLayout>
