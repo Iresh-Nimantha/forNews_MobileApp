@@ -1,11 +1,9 @@
 plugins {
     id("com.android.application")
-    // remove alias line for google-services
+    // Removed alias line to avoid conflict
 }
 
 apply(plugin = "com.google.gms.google-services")
-
-
 
 android {
     namespace = "com.example.fotnews"
@@ -17,7 +15,6 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,14 +27,12 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
-//buildFeatures {
-//    viewBinding = true
-//}
 
 dependencies {
     implementation(libs.appcompat)
@@ -52,19 +47,17 @@ dependencies {
     // Firebase Realtime Database
     implementation("com.google.firebase:firebase-database")
 
-    // Firebase Storage for image URLs
+    // Firebase Storage
     implementation("com.google.firebase:firebase-storage")
 
     // Glide for image loading
     implementation("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 
-    // CardView for your news cards
+    // CardView for news cards
     implementation("androidx.cardview:cardview:1.0.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
-
-

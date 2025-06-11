@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.activity.EdgeToEdge;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,23 +25,24 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login); // Use your XML file name
+        EdgeToEdge.enable(this); // Optional for edge-to-edge UI
+        setContentView(R.layout.activity_login);
+
         mAuth = FirebaseAuth.getInstance();
 
-        // Check existing login status
+        // Check if user is already logged in
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
+
         usernameEditText = findViewById(R.id.log_email);
         passwordEditText = findViewById(R.id.password);
         loginButton = findViewById(R.id.login_button);
         signInLink = findViewById(R.id.sign_in);
         progressBar = new ProgressBar(this);
-        mAuth = FirebaseAuth.getInstance();
 
-        // Login button click
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,12 +50,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // "Sign in" link click
         signInLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Go to the Sign In (Registration) Activity
-                Intent intent = new Intent(LoginActivity.this, SigninActivity.class); // Replace with your registration activity
+                Intent intent = new Intent(LoginActivity.this, SigninActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -83,9 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                            // Redirect to main activity or dashboard
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
