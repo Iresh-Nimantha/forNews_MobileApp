@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
-    android:id="@+id/eventsScrollView"
+    android:id="@+id/academicScrollView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
     <LinearLayout
-        android:id="@+id/eventsMainLayout"
+        android:id="@+id/academicMainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <!-- Loading Layout -->
         <LinearLayout
-            android:id="@+id/eventsLoadingLayout"
+            android:id="@+id/academicLoadingLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -23,16 +23,16 @@
             android:visibility="visible">
 
             <ProgressBar
-                android:id="@+id/eventsProgressBar"
+                android:id="@+id/academicProgressBar"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:indeterminateTint="#FF9800" />
+                android:indeterminateTint="#4A5FBF" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Loading events news..."
+                android:text="Loading academic news..."
                 android:textColor="#666666"
                 android:textSize="16sp" />
 
@@ -40,7 +40,7 @@
 
         <!-- Content Section -->
         <LinearLayout
-            android:id="@+id/eventsContentLayout"
+            android:id="@+id/academicContentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
@@ -54,7 +54,7 @@
 
         <!-- Error Layout -->
         <LinearLayout
-            android:id="@+id/eventsErrorLayout"
+            android:id="@+id/academicErrorLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -63,21 +63,21 @@
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/eventsErrorText"
+                android:id="@+id/academicErrorText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Failed to load events news"
+                android:text="Failed to load academic news"
                 android:textColor="#FF5722"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/eventsRetryButton"
+                android:id="@+id/academicRetryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Retry"
-                android:backgroundTint="#FF9800" />
+                android:backgroundTint="#4A5FBF" />
 
         </LinearLayout>
 

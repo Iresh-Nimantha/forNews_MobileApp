@@ -41,11 +41,30 @@ android {
 
 dependencies {
     implementation(libs.appcompat)
-    implementation(libs.material)  // This already includes Material Design components
+    implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(libs.firebase.auth)  // Firebase Authentication [Memory:programming.android]
+    implementation(libs.firebase.auth)
+
+    // Firebase BoM for version management
+    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+
+    // Firebase Realtime Database
+    implementation("com.google.firebase:firebase-database")
+
+    // Firebase Storage for image URLs
+    implementation("com.google.firebase:firebase-storage")
+
+    // Glide for image loading
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+
+    // CardView for your news cards
+    implementation("androidx.cardview:cardview:1.0.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
+
+

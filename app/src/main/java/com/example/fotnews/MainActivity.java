@@ -1,33 +1,44 @@
 package com.example.fotnews;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
     private BottomNavigationView bottomNav;
     private Fragment currentFragment;
+    private TextView headerTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize bottom navigation
+        // Initialize views
         bottomNav = findViewById(R.id.bottom_navigation);
+        ImageView headerLogo = findViewById(R.id.HeaderLogo);
+        headerTitle = findViewById(R.id.HeaderTitle);
+
+        // Setup bottom navigation
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        // Load default fragment and set selected item
+        // Set header logo click listener
+        headerLogo.setOnClickListener(v -> {
+            Intent profileIntent = new Intent(MainActivity.this, UserProfileActivity.class);
+            startActivity(profileIntent);
+        });
+
+        // Load default fragment and set initial title
         if (savedInstanceState == null) {
-            loadFragment(new AccademicFragment());
+            loadFragment(new AcademicFragment());
             bottomNav.setSelectedItemId(R.id.academic);
+            headerTitle.setText("Academic News");
         }
-
-
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -36,11 +47,14 @@ public class MainActivity extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.academic) {
-                    selectedFragment = new AccademicFragment();
+                    selectedFragment = new AcademicFragment();
+                    headerTitle.setText("Academic News");
                 } else if (itemId == R.id.sport) {
                     selectedFragment = new SportsFragment();
+                    headerTitle.setText("Sports News");
                 } else if (itemId == R.id.event) {
                     selectedFragment = new EventsFragment();
+                    headerTitle.setText("Events");
                 }
 
                 if (selectedFragment != null) {
@@ -55,25 +69,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        // Disable transition animations
-        transaction.setTransition(FragmentTransaction.TRANSIT_NONE);
-
         transaction.replace(R.id.content_scroll, fragment);
         transaction.commit();
         currentFragment = fragment;
     }
 
-
-    @Override
-    public void onBackPressed() {
-        // Handle back press for bottom navigation
-        if (bottomNav.getSelectedItemId() != R.id.academic) {
-            // Go back to first tab (Academic)
-            bottomNav.setSelectedItemId(R.id.academic);
-        } else {
-            // Exit app
-            super.onBackPressed();
-        }
     }
-}

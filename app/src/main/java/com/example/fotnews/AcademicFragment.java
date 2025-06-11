@@ -34,56 +34,56 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EventsFragment extends Fragment {
+public class AcademicFragment extends Fragment {
 
     private DatabaseReference databaseReference;
     private LinearLayout loadingLayout, contentLayout, errorLayout;
     private ProgressBar progressBar;
     private Button retryButton;
 
-    private List<News> eventsNewsList = new ArrayList<>();
+    private List<News> academicNewsList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_events, container, false);
+        View view = inflater.inflate(R.layout.fragment_academic, container, false);
 
         initializeViews(view);
         initializeFirebase();
         setupClickListeners();
-        fetchEventsNews();
+        fetchAcademicNews();
 
         return view;
     }
 
     private void initializeViews(View view) {
-        loadingLayout = view.findViewById(R.id.eventsLoadingLayout);
-        contentLayout = view.findViewById(R.id.eventsContentLayout);
-        errorLayout = view.findViewById(R.id.eventsErrorLayout);
-        progressBar = view.findViewById(R.id.eventsProgressBar);
-        retryButton = view.findViewById(R.id.eventsRetryButton);
+        loadingLayout = view.findViewById(R.id.academicLoadingLayout);
+        contentLayout = view.findViewById(R.id.academicContentLayout);
+        errorLayout = view.findViewById(R.id.academicErrorLayout);
+        progressBar = view.findViewById(R.id.academicProgressBar);
+        retryButton = view.findViewById(R.id.academicRetryButton);
     }
 
     private void initializeFirebase() {
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://fotnews-3c6f8-default-rtdb.firebaseio.com/");
-            this.databaseReference = database.getReference("news/events");
-            Log.d("EventsFragment", "Firebase initialized successfully");
+            this.databaseReference = database.getReference("news/academic");
+            Log.d("AcademicFragment", "Firebase initialized successfully");
         } catch (Exception e) {
-            Log.e("EventsFragment", "Firebase initialization failed: " + e.getMessage());
+            Log.e("AcademicFragment", "Firebase initialization failed: " + e.getMessage());
             showError("Firebase initialization failed");
         }
     }
 
     private void setupClickListeners() {
         if (retryButton != null) {
-            retryButton.setOnClickListener(v -> fetchEventsNews());
+            retryButton.setOnClickListener(v -> fetchAcademicNews());
         }
     }
 
-    private void fetchEventsNews() {
+    private void fetchAcademicNews() {
         if (databaseReference == null) {
-            Log.e("EventsFragment", "DatabaseReference is null, reinitializing Firebase");
+            Log.e("AcademicFragment", "DatabaseReference is null, reinitializing Firebase");
             initializeFirebase();
             if (databaseReference == null) {
                 showError("Database connection failed");
@@ -92,57 +92,57 @@ public class EventsFragment extends Fragment {
         }
 
         showLoading();
-        eventsNewsList.clear();
+        academicNewsList.clear();
         clearDynamicCards();
 
-        Log.d("EventsFragment", "Fetching events news from: " + databaseReference.toString());
+        Log.d("AcademicFragment", "Fetching academic news from: " + databaseReference.toString());
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("EventsFragment", "Data received: " + dataSnapshot.exists());
-                Log.d("EventsFragment", "Children count: " + dataSnapshot.getChildrenCount());
+                Log.d("AcademicFragment", "Data received: " + dataSnapshot.exists());
+                Log.d("AcademicFragment", "Children count: " + dataSnapshot.getChildrenCount());
 
                 if (!dataSnapshot.exists()) {
-                    Log.w("EventsFragment", "No events news data found");
-                    showError("No events news available");
+                    Log.w("AcademicFragment", "No academic news data found");
+                    showError("No academic news available");
                     return;
                 }
 
                 for (DataSnapshot newsSnapshot : dataSnapshot.getChildren()) {
-                    Log.d("EventsFragment", "Processing news: " + newsSnapshot.getKey());
+                    Log.d("AcademicFragment", "Processing news: " + newsSnapshot.getKey());
 
                     try {
                         News news = newsSnapshot.getValue(News.class);
                         if (news != null) {
-                            eventsNewsList.add(news);
-                            Log.d("EventsFragment", "Successfully added: " + news.getTitle());
+                            academicNewsList.add(news);
+                            Log.d("AcademicFragment", "Successfully added: " + news.getTitle());
                         } else {
-                            Log.w("EventsFragment", "Failed to parse news: " + newsSnapshot.getKey());
+                            Log.w("AcademicFragment", "Failed to parse news: " + newsSnapshot.getKey());
                         }
                     } catch (Exception e) {
-                        Log.e("EventsFragment", "Error parsing news: " + e.getMessage());
+                        Log.e("AcademicFragment", "Error parsing news: " + e.getMessage());
                     }
                 }
 
-                if (eventsNewsList.isEmpty()) {
-                    Log.w("EventsFragment", "No valid events news found");
-                    showError("No valid events news found");
+                if (academicNewsList.isEmpty()) {
+                    Log.w("AcademicFragment", "No valid academic news found");
+                    showError("No valid academic news found");
                     return;
                 }
 
                 // Sort by timestamp (newest first)
-                Collections.sort(eventsNewsList, (n1, n2) -> Long.compare(n2.getTimestamp(), n1.getTimestamp()));
+                Collections.sort(academicNewsList, (n1, n2) -> Long.compare(n2.getTimestamp(), n1.getTimestamp()));
 
-                Log.d("EventsFragment", "Total events news loaded: " + eventsNewsList.size());
+                Log.d("AcademicFragment", "Total academic news loaded: " + academicNewsList.size());
                 validateImageUrls();
                 updateUI();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("EventsFragment", "Database error: " + databaseError.getMessage());
-                Log.e("EventsFragment", "Error code: " + databaseError.getCode());
+                Log.e("AcademicFragment", "Database error: " + databaseError.getMessage());
+                Log.e("AcademicFragment", "Error code: " + databaseError.getCode());
 
                 if (databaseError.getCode() == DatabaseError.PERMISSION_DENIED) {
                     showError("Permission denied - check Firebase rules");
@@ -156,27 +156,27 @@ public class EventsFragment extends Fragment {
     private void updateUI() {
         hideLoading();
 
-        if (eventsNewsList.isEmpty()) {
-            Log.w("EventsFragment", "Events news list is empty");
-            showError("No events news to display");
+        if (academicNewsList.isEmpty()) {
+            Log.w("AcademicFragment", "Academic news list is empty");
+            showError("No academic news to display");
             return;
         }
 
-        createEventsNewsCards();
+        createAcademicNewsCards();
         showContent();
     }
 
-    private void createEventsNewsCards() {
+    private void createAcademicNewsCards() {
         if (getContext() == null) {
-            Log.e("EventsFragment", "Context is null, cannot create cards");
+            Log.e("AcademicFragment", "Context is null, cannot create cards");
             return;
         }
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
 
-        for (int i = 0; i < eventsNewsList.size(); i++) {
-            News news = eventsNewsList.get(i);
-            Log.d("EventsFragment", "Creating card for: " + news.getTitle());
+        for (int i = 0; i < academicNewsList.size(); i++) {
+            News news = academicNewsList.get(i);
+            Log.d("AcademicFragment", "Creating card for: " + news.getTitle());
 
             try {
                 // Inflate the news card template
@@ -193,8 +193,8 @@ public class EventsFragment extends Fragment {
                 // Populate with data
                 titleView.setText(news.getTitle());
                 timeView.setText(getTimeAgo(news.getTimestamp()));
-                categoryBadge.setText("EVENTS");
-                categoryBadge.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
+                categoryBadge.setText("ACADEMIC");
+                categoryBadge.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
 
                 // Set up expandable text functionality
                 setupExpandableText(descriptionView, seeMoreView, news.getDescription());
@@ -205,36 +205,36 @@ public class EventsFragment extends Fragment {
                 // Add card to layout
                 contentLayout.addView(cardView);
 
-                Log.d("EventsFragment", "Card created successfully for: " + news.getTitle());
+                Log.d("AcademicFragment", "Card created successfully for: " + news.getTitle());
 
             } catch (Exception e) {
-                Log.e("EventsFragment", "Error creating card for: " + news.getTitle() + " - " + e.getMessage());
+                Log.e("AcademicFragment", "Error creating card for: " + news.getTitle() + " - " + e.getMessage());
             }
         }
     }
 
     private void loadNewsImage(ImageView imageView, String imageUrl, String newsTitle) {
-        Log.d("EventsFragment", "Loading image for: " + newsTitle);
-        Log.d("EventsFragment", "Image URL: " + imageUrl);
+        Log.d("AcademicFragment", "Loading image for: " + newsTitle);
+        Log.d("AcademicFragment", "Image URL: " + imageUrl);
 
         if (getContext() == null) {
-            Log.e("EventsFragment", "Context is null, cannot load image");
+            Log.e("AcademicFragment", "Context is null, cannot load image");
             return;
         }
 
         // Check if image URL is valid
         if (imageUrl == null || imageUrl.trim().isEmpty()) {
-            Log.w("EventsFragment", "No image URL provided for: " + newsTitle);
+            Log.w("AcademicFragment", "No image URL provided for: " + newsTitle);
             imageView.setImageResource(R.drawable.logo);
             return;
         }
 
         // Handle different URL types based on your Firebase data
         if (imageUrl.contains("google.com/url")) {
-            // Extract actual image URL from Google redirect
+            // Extract actual image URL from Google redirect (like news1)
             loadGoogleRedirectImage(imageView, imageUrl, newsTitle);
         } else if (imageUrl.startsWith("https://firebasestorage.googleapis.com/")) {
-            // Firebase Storage URL
+            // Firebase Storage URL (like news2-news5, events, sports)
             loadFirebaseStorageImage(imageView, imageUrl, newsTitle);
         } else if (imageUrl.startsWith("gs://")) {
             // Firebase Storage gs:// URL
@@ -246,7 +246,7 @@ public class EventsFragment extends Fragment {
     }
 
     private void loadGoogleRedirectImage(ImageView imageView, String googleUrl, String newsTitle) {
-        Log.d("EventsFragment", "Processing Google redirect URL for: " + newsTitle);
+        Log.d("AcademicFragment", "Processing Google redirect URL for: " + newsTitle);
 
         try {
             // Extract the actual URL from Google redirect
@@ -254,11 +254,11 @@ public class EventsFragment extends Fragment {
             if (actualUrl != null && !actualUrl.isEmpty()) {
                 loadDirectImage(imageView, actualUrl, newsTitle);
             } else {
-                Log.w("EventsFragment", "Could not extract actual URL from Google redirect");
+                Log.w("AcademicFragment", "Could not extract actual URL from Google redirect");
                 imageView.setImageResource(R.drawable.logo);
             }
         } catch (Exception e) {
-            Log.e("EventsFragment", "Error processing Google URL: " + e.getMessage());
+            Log.e("AcademicFragment", "Error processing Google URL: " + e.getMessage());
             imageView.setImageResource(R.drawable.logo);
         }
     }
@@ -274,13 +274,13 @@ public class EventsFragment extends Fragment {
                 }
             }
         } catch (Exception e) {
-            Log.e("EventsFragment", "Error extracting URL: " + e.getMessage());
+            Log.e("AcademicFragment", "Error extracting URL: " + e.getMessage());
         }
         return null;
     }
 
     private void loadFirebaseStorageImage(ImageView imageView, String storageUrl, String newsTitle) {
-        Log.d("EventsFragment", "Loading Firebase Storage image: " + storageUrl);
+        Log.d("AcademicFragment", "Loading Firebase Storage image: " + storageUrl);
 
         // For Firebase Storage HTTPS URLs, load directly with Glide
         Glide.with(getContext())
@@ -292,16 +292,16 @@ public class EventsFragment extends Fragment {
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        Log.e("EventsFragment", "Failed to load Firebase Storage image for: " + newsTitle);
+                        Log.e("AcademicFragment", "Failed to load Firebase Storage image for: " + newsTitle);
                         if (e != null) {
-                            Log.e("EventsFragment", "Error: " + e.getMessage());
+                            Log.e("AcademicFragment", "Error: " + e.getMessage());
                         }
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        Log.d("EventsFragment", "Successfully loaded Firebase Storage image for: " + newsTitle);
+                        Log.d("AcademicFragment", "Successfully loaded Firebase Storage image for: " + newsTitle);
                         return false;
                     }
                 })
@@ -309,21 +309,21 @@ public class EventsFragment extends Fragment {
     }
 
     private void loadFirebaseStorageReference(ImageView imageView, String gsUrl, String newsTitle) {
-        Log.d("EventsFragment", "Loading Firebase Storage reference: " + gsUrl);
+        Log.d("AcademicFragment", "Loading Firebase Storage reference: " + gsUrl);
 
         try {
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference imageRef = storage.getReferenceFromUrl(gsUrl);
 
             imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                Log.d("EventsFragment", "Firebase Storage download URL obtained: " + uri.toString());
+                Log.d("AcademicFragment", "Firebase Storage download URL obtained: " + uri.toString());
                 loadDirectImage(imageView, uri.toString(), newsTitle);
             }).addOnFailureListener(exception -> {
-                Log.e("EventsFragment", "Failed to get Firebase Storage download URL: " + exception.getMessage());
+                Log.e("AcademicFragment", "Failed to get Firebase Storage download URL: " + exception.getMessage());
                 imageView.setImageResource(R.drawable.logo);
             });
         } catch (Exception e) {
-            Log.e("EventsFragment", "Error processing Firebase Storage reference: " + e.getMessage());
+            Log.e("AcademicFragment", "Error processing Firebase Storage reference: " + e.getMessage());
             imageView.setImageResource(R.drawable.logo);
         }
     }
@@ -339,16 +339,16 @@ public class EventsFragment extends Fragment {
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        Log.e("EventsFragment", "Failed to load direct image for: " + newsTitle);
+                        Log.e("AcademicFragment", "Failed to load direct image for: " + newsTitle);
                         if (e != null) {
-                            Log.e("EventsFragment", "Glide error: " + e.getMessage());
+                            Log.e("AcademicFragment", "Glide error: " + e.getMessage());
                         }
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        Log.d("EventsFragment", "Successfully loaded direct image for: " + newsTitle);
+                        Log.d("AcademicFragment", "Successfully loaded direct image for: " + newsTitle);
                         return false;
                     }
                 })
@@ -385,13 +385,13 @@ public class EventsFragment extends Fragment {
                     descriptionView.setText(fullText);
                     descriptionView.setMaxLines(Integer.MAX_VALUE);
                     seeMoreView.setText("See less");
-                    Log.d("EventsFragment", "Expanded text for news");
+                    Log.d("AcademicFragment", "Expanded text for news");
                 } else {
                     // Collapse text
                     descriptionView.setText(truncatedText);
                     descriptionView.setMaxLines(MAX_LINES);
                     seeMoreView.setText("See more...");
-                    Log.d("EventsFragment", "Collapsed text for news");
+                    Log.d("AcademicFragment", "Collapsed text for news");
                 }
             });
         } else {
@@ -401,27 +401,27 @@ public class EventsFragment extends Fragment {
     }
 
     private void validateImageUrls() {
-        for (News news : eventsNewsList) {
+        for (News news : academicNewsList) {
             String imageUrl = news.getImage();
-            Log.d("EventsFragment", "Validating image URL for " + news.getTitle() + ": " + imageUrl);
+            Log.d("AcademicFragment", "Validating image URL for " + news.getTitle() + ": " + imageUrl);
 
             if (imageUrl != null && !imageUrl.trim().isEmpty()) {
                 // Check if it's a valid URL format
                 if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
                     if (imageUrl.contains("google.com/url")) {
-                        Log.d("EventsFragment", "Google redirect URL: " + imageUrl);
+                        Log.d("AcademicFragment", "Google redirect URL: " + imageUrl);
                     } else if (imageUrl.contains("firebasestorage.googleapis.com")) {
-                        Log.d("EventsFragment", "Firebase Storage URL: " + imageUrl);
+                        Log.d("AcademicFragment", "Firebase Storage URL: " + imageUrl);
                     } else {
-                        Log.d("EventsFragment", "Direct HTTP URL: " + imageUrl);
+                        Log.d("AcademicFragment", "Direct HTTP URL: " + imageUrl);
                     }
                 } else if (imageUrl.startsWith("gs://")) {
-                    Log.d("EventsFragment", "Firebase Storage gs:// URL: " + imageUrl);
+                    Log.d("AcademicFragment", "Firebase Storage gs:// URL: " + imageUrl);
                 } else {
-                    Log.w("EventsFragment", "Unknown URL format: " + imageUrl);
+                    Log.w("AcademicFragment", "Unknown URL format: " + imageUrl);
                 }
             } else {
-                Log.w("EventsFragment", "Empty or null image URL for: " + news.getTitle());
+                Log.w("AcademicFragment", "Empty or null image URL for: " + news.getTitle());
             }
         }
     }
@@ -429,7 +429,7 @@ public class EventsFragment extends Fragment {
     private void clearDynamicCards() {
         if (contentLayout != null) {
             contentLayout.removeAllViews();
-            Log.d("EventsFragment", "Cleared dynamic cards");
+            Log.d("AcademicFragment", "Cleared dynamic cards");
         }
     }
 
@@ -463,14 +463,14 @@ public class EventsFragment extends Fragment {
         if (loadingLayout != null) loadingLayout.setVisibility(View.VISIBLE);
         if (contentLayout != null) contentLayout.setVisibility(View.GONE);
         if (errorLayout != null) errorLayout.setVisibility(View.GONE);
-        Log.d("EventsFragment", "Showing loading state");
+        Log.d("AcademicFragment", "Showing loading state");
     }
 
     private void showContent() {
         if (loadingLayout != null) loadingLayout.setVisibility(View.GONE);
         if (contentLayout != null) contentLayout.setVisibility(View.VISIBLE);
         if (errorLayout != null) errorLayout.setVisibility(View.GONE);
-        Log.d("EventsFragment", "Showing content");
+        Log.d("AcademicFragment", "Showing content");
     }
 
     private void showError(String message) {
@@ -478,12 +478,12 @@ public class EventsFragment extends Fragment {
         if (contentLayout != null) contentLayout.setVisibility(View.GONE);
         if (errorLayout != null) {
             errorLayout.setVisibility(View.VISIBLE);
-            TextView errorText = errorLayout.findViewById(R.id.eventsErrorText);
+            TextView errorText = errorLayout.findViewById(R.id.academicErrorText);
             if (errorText != null) {
                 errorText.setText(message);
             }
         }
-        Log.e("EventsFragment", "Showing error: " + message);
+        Log.e("AcademicFragment", "Showing error: " + message);
     }
 
     private void hideLoading() {
@@ -493,6 +493,6 @@ public class EventsFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("EventsFragment", "Fragment destroyed");
+        Log.d("AcademicFragment", "Fragment destroyed");
     }
 }
