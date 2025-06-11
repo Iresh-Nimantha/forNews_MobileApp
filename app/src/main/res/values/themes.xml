@@ -1,12 +1,44 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Base application theme. -->
-    <style name="Base.Theme.FotNews" parent="Theme.Material3.DayNight.NoActionBar"
-        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
-        >
+    <style name="Base.Theme.FotNews" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Remove purple colors and set clean theme -->
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimaryDark">#F5F5F5</item>
+        <item name="colorAccent">#4A5FBF</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
 
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Button colors to avoid purple -->
+        <item name="materialButtonStyle">@style/CustomButtonStyle</item>
+
+        <!-- Background colors -->
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="colorSurface">@android:color/white</item>
+        <item name="colorOnSurface">#333333</item>
     </style>
 
     <style name="Theme.FotNews" parent="Base.Theme.FotNews" />
+
+    <!-- Custom button style to avoid purple -->
+    <style name="CustomButtonStyle" parent="Widget.Material3.Button">
+        <item name="backgroundTint">#4A5FBF</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="rippleColor">#6C7FD8</item>
+    </style>
+
+    <!-- Academic theme variant -->
+    <style name="Theme.FotNews.Academic" parent="Theme.FotNews">
+        <item name="colorAccent">#4A5FBF</item>
+    </style>
+
+    <!-- Sports theme variant -->
+    <style name="Theme.FotNews.Sports" parent="Theme.FotNews">
+        <item name="colorAccent">#4CAF50</item>
+    </style>
+
+    <!-- Events theme variant -->
+    <style name="Theme.FotNews.Events" parent="Theme.FotNews">
+        <item name="colorAccent">#FF9800</item>
+    </style>
 </resources>

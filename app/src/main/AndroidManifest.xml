@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.fotnews">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,7 +16,7 @@
         android:theme="@style/Theme.FotNews"
         tools:targetApi="31">
 
-        <!-- Launcher Activity -->
+        <!-- Splash Screen as Launcher -->
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true">
@@ -24,11 +26,23 @@
             </intent-filter>
         </activity>
 
+        <!-- Sign-in and Profile Activities -->
+        <activity
+            android:name=".SigninActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserProfileActivity"
+            android:exported="false" />
+
         <!-- Login Activity -->
-        <activity android:name=".LoginActivity" android:exported="true" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true" />
 
         <!-- Main Activity -->
-        <activity android:name=".MainActivity" android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

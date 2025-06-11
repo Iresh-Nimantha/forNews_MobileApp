@@ -14,7 +14,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/logo"
-        android:contentDescription="@string/app_logo"
+
         android:layout_marginBottom="16dp" />
 
     <!-- App Title -->
@@ -35,10 +35,27 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:hint="User Name"
-        android:background="@drawable/edittext_background"
+
         android:padding="12dp"
+        android:color="#DDDDDD"
         android:layout_marginBottom="16dp"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+
+        />
+
+    <!-- Email -->
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Email"
+
+        android:padding="12dp"
+        android:color="#DDDDDD"
+        android:layout_marginBottom="16dp"
+        android:inputType="textPersonName"
+
+        />
 
     <!-- Password Field -->
     <EditText
@@ -46,17 +63,28 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:hint="Password"
-        android:background="@drawable/edittext_background"
+
+        android:padding="12dp"
+        android:layout_marginBottom="24dp"
+        android:inputType="textPassword" />
+
+    <!--Confirm Password Field -->
+    <EditText
+        android:id="@+id/confirm_password"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Confirm Password"
+
         android:padding="12dp"
         android:layout_marginBottom="24dp"
         android:inputType="textPassword" />
 
     <!-- Login Button -->
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/signin_button"
         android:layout_width="match_parent"
         android:layout_height="68dp"
-        android:text="Log in"
+        android:text="Sign in"
         android:textSize="18sp"
         android:textColor="#fff"
         android:backgroundTint="#4953B8"
@@ -77,21 +105,13 @@
             android:textColor="#888888" />
 
         <TextView
-            android:id="@+id/sign_in"
+            android:id="@+id/Log_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Sign in"
+            android:text="Log in"
             android:textSize="14sp"
             android:textColor="#4953B8"
             android:textStyle="bold" />
     </LinearLayout>
-
-    <!-- Progress Bar -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
 
 </LinearLayout>

@@ -1,0 +1,28 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="24dp"
+    android:tint="#3E3C3C"
+    android:viewportHeight="24"
+    android:viewportWidth="24"
+    android:width="24dp">
+
+    <!-- Trophy cup/bowl -->
+    <path android:fillColor="@android:color/white"
+        android:pathData="M8,5h8v6c0,2.21 -1.79,4 -4,4s-4,-1.79 -4,-4V5z"/>
+
+    <!-- Left handle -->
+    <path android:fillColor="@android:color/white"
+        android:pathData="M5,7h3v4c0,0.55 -0.45,1 -1,1H6c-0.55,0 -1,-0.45 -1,-1V7z"/>
+
+    <!-- Right handle -->
+    <path android:fillColor="@android:color/white"
+        android:pathData="M16,7h3v4c0,0.55 -0.45,1 -1,1h-1c-0.55,0 -1,-0.45 -1,-1V7z"/>
+
+    <!-- Trophy stem/neck -->
+    <path android:fillColor="@android:color/white"
+        android:pathData="M11,15h2v4h-2z"/>
+
+    <!-- Trophy base -->
+    <path android:fillColor="@android:color/white"
+        android:pathData="M7,19h10v2H7z"/>
+
+</vector>
