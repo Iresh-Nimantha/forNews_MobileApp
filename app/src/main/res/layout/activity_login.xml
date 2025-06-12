@@ -29,12 +29,12 @@
         android:textColor="#222"
         android:layout_marginBottom="32dp" />
 
-    <!-- Username Field -->
+    <!-- Email Field -->
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="User Name"
+        android:hint="Email"
         android:background="@drawable/edittext_background"
         android:padding="12dp"
         android:layout_marginBottom="16dp"
