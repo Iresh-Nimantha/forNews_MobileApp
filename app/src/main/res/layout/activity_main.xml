@@ -30,17 +30,27 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/HeaderLogo"
+        <!-- Rounded Profile Image using CardView -->
+        <androidx.cardview.widget.CardView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/logo"
-            android:contentDescription="@string/profile_logo_desc"
-            android:importantForAccessibility="yes"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="2dp"
             android:clickable="true"
-            android:focusable="true"
-            android:accessibilityTraversalBefore="@id/HeaderTitle"
-            android:accessibilityHeading="true"/>
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/HeaderLogo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/user"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/profile_logo_desc"
+                android:importantForAccessibility="yes"
+                android:accessibilityTraversalBefore="@id/HeaderTitle"
+                android:accessibilityHeading="true"/>
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
