@@ -12,10 +12,10 @@
     android:paddingStart="24dp"
     android:paddingEnd="24dp">
 
-    <!-- Space between profile image and user info -->
+    <!-- Top spacing -->
     <View
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="60dp" />
 
     <!-- Profile Picture with Camera Icon Overlay -->
     <FrameLayout
@@ -23,32 +23,53 @@
         android:layout_height="140dp"
         android:layout_gravity="center_horizontal">
 
-        <ImageView
-            android:id="@+id/profile_image"
+        <!-- Rounded Profile Image using CardView -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/logo"
-            android:scaleType="centerCrop" />
+            app:cardCornerRadius="70dp"
+            app:cardElevation="4dp">
 
-        <ImageButton
-            android:id="@+id/change_photo_button"
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/user"
+                android:scaleType="centerCrop" />
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Camera Button Overlay -->
+        <androidx.cardview.widget.CardView
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="bottom|end"
-            android:background="@drawable/cam"
-            android:src="@drawable/cam"
-            android:padding="12dp"
-            android:elevation="2dp"
-            android:scaleType="center"
-            android:focusable="true"/>
+            app:cardCornerRadius="24dp"
+            app:cardElevation="6dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp">
+
+            <ImageButton
+                android:id="@+id/change_photo_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:src="@drawable/cam"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:focusable="true"
+                android:contentDescription="Change profile photo" />
+
+        </androidx.cardview.widget.CardView>
+
     </FrameLayout>
 
     <!-- Space between profile image and user info -->
     <View
         android:layout_width="match_parent"
-        android:layout_height="54dp" />
+        android:layout_height="40dp" />
 
-    <!-- User Info -->
+    <!-- User Info Section -->
     <TextView
         android:id="@+id/user_info_label"
         android:layout_width="wrap_content"
@@ -58,49 +79,58 @@
         android:textColor="#444444"
         android:textSize="16sp"
         android:letterSpacing="0.05"
-        android:layout_marginBottom="4dp"/>
+        android:layout_marginBottom="16dp"/>
 
+    <!-- Username Section -->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="16dp"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Username: "
             android:textColor="#444444"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:layout_marginEnd="8dp" />
 
         <EditText
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Iresh"
-            android:textColor="#444444"
-            android:textSize="20sp"
-            android:enabled="false"
             android:background="@android:color/transparent"
+            android:enabled="false"
+            android:gravity="center"
+            android:inputType="textPersonName"
             android:minHeight="48dp"
             android:minWidth="120dp"
-            android:gravity="start"
-            android:inputType="textPersonName" />
+            android:text="Iresh"
+            android:textColor="#444444"
+            android:textSize="18sp" />
+
     </LinearLayout>
 
+    <!-- Email Section -->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="32dp"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email: "
             android:textColor="#444444"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:layout_marginEnd="8dp" />
 
         <TextView
@@ -109,46 +139,49 @@
             android:layout_height="wrap_content"
             android:text="sample@email.com"
             android:textColor="#444444"
-            android:textSize="20sp" />
+            android:textSize="18sp"
+            android:gravity="center" />
+
     </LinearLayout>
 
+    <!-- Flexible spacing -->
     <View
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-    <!-- Edit Info Button -->
+    <!-- Buttons Section -->
     <Button
         android:id="@+id/edit_button"
         android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:text="Edit"
-        android:textSize="24sp"
-        android:textColor="#fff"
+        android:layout_height="56dp"
+        android:text="Edit Profile"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         android:backgroundTint="#4953B8"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="12dp" />
 
-    <!-- Log Out Button -->
     <Button
         android:id="@+id/logout_button"
         android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#4953B8"
+        android:layout_height="56dp"
         android:text="Log Out"
-        android:textColor="#fff"
-        android:textSize="25sp"
-        android:textStyle="bold"/>
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:backgroundTint="#4953B8"
+        android:layout_marginBottom="12dp" />
 
-    <!-- Developer Button -->
     <Button
         android:id="@+id/developer_button"
         android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#FF0000"
+        android:layout_height="56dp"
         android:text="Developer"
-        android:textColor="#fff"
-        android:textSize="24sp"
-        android:textStyle="bold"/>
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:backgroundTint="#FF0000"
+        android:layout_marginBottom="16dp" />
 
 </LinearLayout>
