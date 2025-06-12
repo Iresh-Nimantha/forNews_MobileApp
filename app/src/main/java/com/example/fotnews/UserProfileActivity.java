@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,7 +43,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private ImageView profileImage;
     private EditText usernameEditText;
     private TextView emailTextView;
-    private Button editSaveButton, logoutButton, developerButton; // Added developerButton
+    private Button editSaveButton, logoutButton, developerButton;
     private FirebaseAuth mAuth;
     private String currentPhotoPath;
     private SharedPreferences sharedPreferences;
@@ -69,7 +68,7 @@ public class UserProfileActivity extends AppCompatActivity {
         usernameEditText = findViewById(R.id.username);
         editSaveButton = findViewById(R.id.edit_button);
         logoutButton = findViewById(R.id.logout_button);
-        developerButton = findViewById(R.id.developer_button); // Initialize developer button
+        developerButton = findViewById(R.id.developer_button);
     }
 
     private void setupButtonListeners() {
@@ -79,14 +78,12 @@ public class UserProfileActivity extends AppCompatActivity {
         logoutButton.setOnClickListener(v -> showCustomLogoutDialog());
         changePhotoButton.setOnClickListener(v -> showImageSourceDialog());
 
-        // Add click listener for Developer button
         developerButton.setOnClickListener(v -> {
             Log.d("UserProfile", "Developer button clicked");
             redirectToDeveloperActivity();
         });
     }
 
-    // New method to handle redirect to Developer activity
     private void redirectToDeveloperActivity() {
         try {
             Intent intent = new Intent(UserProfileActivity.this, DeveloperActivity.class);
@@ -99,26 +96,21 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void showCustomLogoutDialog() {
-        // Create custom dialog layout
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.custom_logout_dialog, null);
 
-        // Create AlertDialog with custom view
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialogView);
 
         AlertDialog dialog = builder.create();
 
-        // Make dialog background transparent for rounded corners
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
-        // Find buttons in custom layout
         Button okButton = dialogView.findViewById(R.id.dialog_ok_button);
         Button cancelButton = dialogView.findViewById(R.id.dialog_cancel_button);
 
-        // Set button click listeners
         okButton.setOnClickListener(v -> {
             dialog.dismiss();
             performLogout();
@@ -130,13 +122,8 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void performLogout() {
-        // Sign out from Firebase
         mAuth.signOut();
-
-        // Clear any stored user data
         sharedPreferences.edit().clear().apply();
-
-        // Navigate back to login screen
         Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -184,7 +171,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private String getDefaultDisplayName(FirebaseUser user) {
-        return user.getDisplayName() != null ? user.getDisplayName() : "name_here";
+        return user.getDisplayName() != null ? user.getDisplayName() : "User";
     }
 
     private void showImageSourceDialog() {
@@ -212,8 +199,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private Intent createGalleryIntent() {
-        return new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        return new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
     }
 
     private File createImageFile() {
@@ -221,11 +207,7 @@ public class UserProfileActivity extends AppCompatActivity {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
             String imageFileName = "JPEG_" + timeStamp + "_";
             File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-            File image = File.createTempFile(
-                    imageFileName,
-                    ".jpg",
-                    storageDir
-            );
+            File image = File.createTempFile(imageFileName, ".jpg", storageDir);
             currentPhotoPath = image.getAbsolutePath();
             return image;
         } catch (IOException e) {
