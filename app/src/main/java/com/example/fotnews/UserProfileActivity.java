@@ -1,6 +1,7 @@
 package com.example.fotnews;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -8,11 +9,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +43,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private ImageView profileImage;
     private EditText usernameEditText;
     private TextView emailTextView;
-    private Button editSaveButton, logoutButton;
+    private Button editSaveButton, logoutButton, developerButton;
     private FirebaseAuth mAuth;
     private String currentPhotoPath;
     private SharedPreferences sharedPreferences;
@@ -63,14 +68,66 @@ public class UserProfileActivity extends AppCompatActivity {
         usernameEditText = findViewById(R.id.username);
         editSaveButton = findViewById(R.id.edit_button);
         logoutButton = findViewById(R.id.logout_button);
+        developerButton = findViewById(R.id.developer_button);
     }
 
     private void setupButtonListeners() {
         ImageButton changePhotoButton = findViewById(R.id.change_photo_button);
 
         editSaveButton.setOnClickListener(v -> toggleEditSave());
-        logoutButton.setOnClickListener(v -> logoutUser());
+        logoutButton.setOnClickListener(v -> showCustomLogoutDialog());
         changePhotoButton.setOnClickListener(v -> showImageSourceDialog());
+
+        developerButton.setOnClickListener(v -> {
+            Log.d("UserProfile", "Developer button clicked");
+            redirectToDeveloperActivity();
+        });
+    }
+
+    private void redirectToDeveloperActivity() {
+        try {
+            Intent intent = new Intent(UserProfileActivity.this, DeveloperActivity.class);
+            startActivity(intent);
+            Log.d("UserProfile", "Successfully redirected to Developer activity");
+        } catch (Exception e) {
+            Log.e("UserProfile", "Error redirecting to Developer activity: " + e.getMessage());
+            showToast("Error opening Developer screen");
+        }
+    }
+
+    private void showCustomLogoutDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_logout_dialog, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        Button okButton = dialogView.findViewById(R.id.dialog_ok_button);
+        Button cancelButton = dialogView.findViewById(R.id.dialog_cancel_button);
+
+        okButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            performLogout();
+        });
+
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private void performLogout() {
+        mAuth.signOut();
+        sharedPreferences.edit().clear().apply();
+        Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void toggleEditSave() {
@@ -117,16 +174,6 @@ public class UserProfileActivity extends AppCompatActivity {
         return user.getDisplayName() != null ? user.getDisplayName() : "User";
     }
 
-    private void logoutUser() {
-        mAuth.signOut();
-        navigateToLogin();
-    }
-
-    private void navigateToLogin() {
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
-    }
-
     private void showImageSourceDialog() {
         Intent[] intents = new Intent[2];
         intents[0] = createCameraIntent();
@@ -152,8 +199,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private Intent createGalleryIntent() {
-        return new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        return new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
     }
 
     private File createImageFile() {
@@ -161,11 +207,7 @@ public class UserProfileActivity extends AppCompatActivity {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
             String imageFileName = "JPEG_" + timeStamp + "_";
             File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-            File image = File.createTempFile(
-                    imageFileName,
-                    ".jpg",
-                    storageDir
-            );
+            File image = File.createTempFile(imageFileName, ".jpg", storageDir);
             currentPhotoPath = image.getAbsolutePath();
             return image;
         } catch (IOException e) {

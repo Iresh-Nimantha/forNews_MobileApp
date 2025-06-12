@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.password);
         loginButton = findViewById(R.id.login_button);
         signInLink = findViewById(R.id.sign_in);
-        progressBar = new ProgressBar(this);
+        progressBar = new ProgressBar(this); // Optional if you plan to show progress
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
