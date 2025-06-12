@@ -14,7 +14,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/logo"
-
+        android:contentDescription="@string/app_logo"
         android:layout_marginBottom="16dp" />
 
     <!-- App Title -->
@@ -35,13 +35,10 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:hint="User Name"
-
+        android:background="@drawable/edittext_background"
         android:padding="12dp"
-        android:color="#DDDDDD"
         android:layout_marginBottom="16dp"
-        android:inputType="textPersonName"
-
-        />
+        android:inputType="textPersonName" />
 
     <!-- Password Field -->
     <EditText
@@ -49,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:hint="Password"
-
+        android:background="@drawable/edittext_background"
         android:padding="12dp"
         android:layout_marginBottom="24dp"
         android:inputType="textPassword" />
@@ -88,5 +85,13 @@
             android:textColor="#4953B8"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
 </LinearLayout>

@@ -111,7 +111,7 @@ public class SigninActivity extends AppCompatActivity {
                             Toast.makeText(SigninActivity.this, "Registration successful!", Toast.LENGTH_SHORT).show();
                             // Optionally, update user profile with username
                             // Redirect to main activity or login
-                            Intent intent = new Intent(SigninActivity.this, MainActivity.class);
+                            Intent intent = new Intent(SigninActivity.this, UserProfileActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
