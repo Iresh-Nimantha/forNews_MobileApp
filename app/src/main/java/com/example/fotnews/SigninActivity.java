@@ -1,6 +1,7 @@
 package com.example.fotnews;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,13 +22,15 @@ public class SigninActivity extends AppCompatActivity {
     private TextView logInLink;
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
-
-
+    private SharedPreferences sharedPreferences; // Add SharedPreferences
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin); // Use your XML file name
+        setContentView(R.layout.activity_signin);
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("user_profile", MODE_PRIVATE);
 
         usernameEditText = findViewById(R.id.username);
         emailEditText = findViewById(R.id.email);
@@ -42,15 +45,11 @@ public class SigninActivity extends AppCompatActivity {
         logInLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Start the LoginActivity (replace with your actual login activity class)
                 Intent intent = new Intent(SigninActivity.this, LoginActivity.class);
                 startActivity(intent);
-                // Optionally, finish the current activity so user can't go back to registration
                 finish();
             }
         });
-
-
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +61,6 @@ public class SigninActivity extends AppCompatActivity {
         logInLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Go to the Login Activity
                 Intent intent = new Intent(SigninActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
@@ -97,7 +95,6 @@ public class SigninActivity extends AppCompatActivity {
             return;
         }
 
-        // Optionally show a progress bar here
         signInButton.setEnabled(false);
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -106,22 +103,29 @@ public class SigninActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<com.google.firebase.auth.AuthResult> task) {
                         signInButton.setEnabled(true);
                         if (task.isSuccessful()) {
-                            // Registration success
+                            // Registration success - Save username to SharedPreferences
+                            saveUsernameToLocalStorage(username);
+
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(SigninActivity.this, "Registration successful!", Toast.LENGTH_SHORT).show();
-                            // Optionally, update user profile with username
-                            // Redirect to main activity or login
-                            Intent intent = new Intent(SigninActivity.this, UserProfileActivity.class);
+
+                            Intent intent = new Intent(SigninActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
-                            // Registration failed
                             String errorMessage = task.getException().getMessage();
-                            Log.e("FirebaseAuth", "Registration failed: " + errorMessage); // 🔴 Console log
+                            Log.e("FirebaseAuth", "Registration failed: " + errorMessage);
                             Toast.makeText(SigninActivity.this, "Registration failed: " + errorMessage, Toast.LENGTH_LONG).show();
                         }
-
                     }
                 });
+    }
+
+    // Method to save username to SharedPreferences
+    private void saveUsernameToLocalStorage(String username) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user_name", username);
+        editor.apply(); // Use apply() instead of commit() for better performance
+        Log.d("SigninActivity", "Username saved to local storage: " + username);
     }
 }
